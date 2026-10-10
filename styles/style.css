@@ -117,3 +117,87 @@ button:focus-visible {
     outline: 3px solid #f59e0b;
     outline-offset: 2px;
 }
+
+/* Tablet screens: 768px and wider */
+@media (min-width: 768px) {
+    .summary-cards {
+        flex-direction: row;
+    }
+
+    .summary-cards article {
+        flex: 1;
+    }
+}
+
+/* Desktop screens: 1024px and wider */
+@media (min-width: 1024px) {
+    body {
+        padding: 30px;
+    }
+
+    main {
+        max-width: 1100px;
+    }
+}
+
+
+/* Larger screens: organize the form into two columns */
+@media (min-width: 768px) {
+    #transaction-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px 20px;
+    }
+
+    #transaction-form label {
+        align-self: end;
+    }
+
+    #transaction-form button {
+        grid-column: 1 / -1;
+    }
+}
+
+
+/* Navigation */
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+nav a {
+    color: #3730a3;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+nav a:hover {
+    text-decoration: underline;
+}
+
+/* Skip link: visible when keyboard-focused */
+.skip-link {
+    position: absolute;
+    top: -100px;
+    left: 10px;
+    background-color: white;
+    color: #222;
+    padding: 10px;
+    z-index: 100;
+}
+
+.skip-link:focus {
+    top: 10px;
+    border: 2px solid #3730a3;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* Keyboard focus for navigation */
+nav a:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 4px;
+}
