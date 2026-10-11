@@ -1,8 +1,3 @@
-function validateDescription(description) {
-    const pattern = /^\S(?:.*\S)?$/;
-    return pattern.test(description) && !/\s{2,}/.test(description);
-}
-
 /* 1. Validate the transaction description */
 function validateDescription(description) {
     const pattern = /^\S(?:.*\S)?$/;
