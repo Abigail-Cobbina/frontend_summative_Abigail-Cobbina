@@ -1,3 +1,4 @@
+
 # Student Finance Tracker — Wireframe
 
 ## Desktop Layout
@@ -5,39 +6,56 @@
 +----------------------------------------------------------+
 |                 STUDENT FINANCE TRACKER                  |
 |             How to be the sole owner of your pocket      |
-|                                                          |
-| Dashboard | Add Transaction | Transaction History        |
+| Dashboard | Add Transaction | History | Settings | About |
 +----------------------------------------------------------+
 
 +----------------------------------------------------------+
 |                    YOUR ENTIRE POCKET                    |
-|                                                          |
-|  +----------------+ +----------------+ +----------------+ |
-|  | Total Balance  | | Total Income   | | Total Expenses | |
-|  |   RWF 0        | |   RWF 0        | |   RWF 0        | |
-|  +----------------+ +----------------+ +----------------+ |
+| +----------------+ +----------------+ +----------------+ |
+| | Total Balance  | | Total Income   | | Total Expenses | |
+| | RWF 0           | | RWF 0           | | RWF 0           | |
+| +----------------+ +----------------+ +----------------+ |
 +----------------------------------------------------------+
 
 +----------------------------------------------------------+
 |                    LET'S TALK MONEY                      |
-|                                                          |
-|  Description: [______________________________********]   |
-|  Amount:      [****__******]  Type: [Income / Expense]   |
-|  Category:    [************]  Date: [**************]     |
-|                                                          |
+| Description: [________________________]                  |
+| Amount: [________] Type: [Income / Expense]              |
+| Category: [___________] Date: [____________]             |
 |                   [ Add Transaction ]                    |
 +----------------------------------------------------------+
 
 +----------------------------------------------------------+
 |                  TRANSACTION HISTORY                     |
-|                                                          |
-|  [ Transaction card ]       [ Transaction card ]         |
-|  [ Transaction card ]       [ Transaction card ]         |
+| Search: [________________________]                       |
+| Sort by: [Date / Description / Amount] [Ascending/Desc.] |
+| [ Transaction card ]       [ Transaction card ]         |
+| [ Transaction card ]       [ Transaction card ]         |
++----------------------------------------------------------+
+
++----------------------------------------------------------+
+|                  STATISTICS & BUDGET                     |
+| Spending Trend / Chart                                  |
+| Budget Target: [________] Remaining: RWF 0              |
++----------------------------------------------------------+
+
++----------------------------------------------------------+
+|                       SETTINGS                           |
+| Base Currency: [RWF v]                                  |
+| Manual Exchange Rates: [____________________]           |
+| Manage Categories: [_______________________]            |
++----------------------------------------------------------+
+
++----------------------------------------------------------+
+|                         ABOUT                            |
+| Purpose of the Student Finance Tracker                  |
+| Contact: GitHub / Email                                 |
 +----------------------------------------------------------+
 
 +----------------------------------------------------------+
 |                         FOOTER                           |
 +----------------------------------------------------------+
+
 
 ## Mobile Layout
 
@@ -46,7 +64,7 @@
 | Tagline                      |
 | Dashboard                    |
 | Add Transaction              |
-| Transaction History          |
+| History | Settings | About   |
 +------------------------------+
 
 +------------------------------+
@@ -63,13 +81,13 @@
 +------------------------------+
 | LET'S TALK MONEY             |
 | Description:                 |
-| [**************************] |
+| [__________________________] |
 | Amount:                      |
-| [**************************] |
+| [__________________________] |
 | Type:                        |
-| [**************************] |
+| [Income / Expense]           |
 | Category:                    |
-| [**************************] |
+| [__________________________] |
 | Date:                        |
 | [__________________________] |
 | [      Add Transaction     ] |
@@ -77,14 +95,39 @@
 
 +------------------------------+
 | TRANSACTION HISTORY          |
+| Search:                      |
+| [__________________________] |
+| Sort by:                     |
+| [Date / Description / Amount]|
+| [Ascending / Descending]     |
 | +--------------------------+ |
 | | Transaction card         | |
 | +--------------------------+ |
 | | Transaction card         | |
 | +--------------------------+ |
++------------------------------+
+
++------------------------------+
+| STATISTICS & BUDGET          |
+| Spending Trend / Chart       |
+| Budget Target:               |
+| [__________________________] |
+| Remaining: RWF 0             |
++------------------------------+
+
++------------------------------+
+| SETTINGS                     |
+| Base Currency: [RWF v]       |
+| Manual Exchange Rates        |
+| Manage Categories            |
++------------------------------+
+
++------------------------------+
+| ABOUT                        |
+| App purpose                  |
+| Contact: GitHub / Email      |
 +------------------------------+
 
 +------------------------------+
 | FOOTER                       |
 +------------------------------+
-

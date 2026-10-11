@@ -63,3 +63,44 @@ The application will use a mobile-first layout, Flexbox, and media queries. It w
 
 The completed application will provide students with a practical, accessible tool for recording transactions, reviewing spending patterns, and managing a personal budget.
 
+
+## 10. Data Model
+
+Each transaction will be stored as an object containing the following fields:
+
+| Field | Type | Description |
+|---|---|---|
+| id | String | Unique identifier for each transaction |
+| description | String | Description of the income or expense |
+| amount | Number | Amount of money involved |
+| type | String | Income or Expense |
+| category | String | Category of the transaction |
+| date | String | Transaction date in YYYY-MM-DD format |
+| createdAt | String | Date and time the record was created |
+| updatedAt | String | Date and time the record was last edited |
+
+Example transaction:
+
+{
+  "id": "rec_0001",
+  "description": "Lunch at cafeteria",
+  "amount": 12.50,
+  "type": "Expense",
+  "category": "Food",
+  "date": "2025-09-29",
+  "createdAt": "2025-09-29T12:00:00.000Z",
+  "updatedAt": "2025-09-29T12:00:00.000Z"
+}
+
+Transactions will be stored in a collection and saved in browser localStorage. JSON files will be used for importing and exporting transaction records.
+
+## 11. Accessibility Testing Plan
+
+- Navigate through the application using only the keyboard.
+- Confirm that the skip link allows users to jump to the main content.
+- Check that links, buttons, and form controls have visible focus indicators.
+- Confirm that every form field has a clear, associated label.
+- Test that validation errors and status updates are announced to assistive technology.
+- Check text readability and colour contrast.
+- Test the layout at mobile, tablet, and desktop screen widths.
+- Confirm that interactive controls have meaningful labels and logical navigation order.
