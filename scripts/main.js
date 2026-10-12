@@ -1,4 +1,6 @@
 
+import { addTransaction, getTransactions } from "./state.js";
+import { renderTransactions } from "./ui.js";
 import {
     validateDescription,
     validateAmount,
@@ -6,6 +8,7 @@ import {
     validateCategory,
     hasDuplicateWords
 } from "./validators.js";
+import { searchAndSortTransactions } from "./search.js";
 
 const form = document.querySelector("#transaction-form");
 
@@ -23,9 +26,17 @@ const errors = {
     date: document.querySelector("#date-error")
 };
 
+const searchInput = document.querySelector("#search-input");
+const caseSensitiveInput = document.querySelector("#case-sensitive");
+const sortSelect = document.querySelector("#sort-by");
+const searchStatus = document.querySelector("#search-status");
+
 function showError(fieldName, message) {
     errors[fieldName].textContent = message;
-    fields[fieldName].setAttribute("aria-invalid", message ? "true" : "false");
+    fields[fieldName].setAttribute(
+        "aria-invalid",
+        message ? "true" : "false"
+    );
 }
 
 function validateForm() {
@@ -70,6 +81,25 @@ function validateForm() {
     return isValid;
 }
 
+function updateTransactionList() {
+    const query = searchInput.value;
+
+    const { results, error, pattern } = searchAndSortTransactions(
+        getTransactions(),
+        query,
+        caseSensitiveInput.checked,
+        sortSelect.value
+    );
+
+    if (error) {
+        searchStatus.textContent = error;
+        return;
+    }
+
+    renderTransactions(results, query.trim() ? pattern : null);
+    searchStatus.textContent = `${results.length} transaction(s) found.`;
+}
+
 form.addEventListener("submit", function (event) {
     event.preventDefault();
 
@@ -79,7 +109,17 @@ form.addEventListener("submit", function (event) {
         return;
     }
 
-    alert("Validation successful! Your form is ready.");
+    addTransaction({
+        description: fields.description.value,
+        amount: fields.amount.value,
+        type: document.querySelector("#type").value,
+        category: fields.category.value,
+        date: fields.date.value
+    });
+
+    updateTransactionList();
+    form.reset();
+    fields.description.focus();
 });
 
 for (const field of Object.values(fields)) {
@@ -95,3 +135,7 @@ for (const field of Object.values(fields)) {
         }
     });
 }
+
+searchInput.addEventListener("input", updateTransactionList);
+caseSensitiveInput.addEventListener("change", updateTransactionList);
+sortSelect.addEventListener("change", updateTransactionList);
