@@ -62,7 +62,31 @@ function renderTransactions(transactions, pattern = null) {
         const details = document.createElement("p");
         details.textContent = `${transaction.category} · ${transaction.date}`;
 
-        card.append(description, amount, details);
+        const actions = document.createElement("div");
+        actions.className = "transaction-actions";
+
+        const editButton = document.createElement("button");
+        editButton.type = "button";
+        editButton.className = "edit-transaction";
+        editButton.dataset.id = transaction.id;
+        editButton.textContent = "Edit";
+        editButton.setAttribute(
+            "aria-label",
+            `Edit transaction: ${transaction.description}`
+        );
+
+        const deleteButton = document.createElement("button");
+        deleteButton.type = "button";
+        deleteButton.className = "delete-transaction";
+        deleteButton.dataset.id = transaction.id;
+        deleteButton.textContent = "Delete";
+        deleteButton.setAttribute(
+            "aria-label",
+            `Delete transaction: ${transaction.description}`
+        );
+
+        actions.append(editButton, deleteButton);
+        card.append(description, amount, details, actions);
         transactionList.append(card);
     });
 }

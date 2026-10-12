@@ -1,5 +1,12 @@
-import { addTransaction, getTransactions } from "./state.js";
+import {
+    addTransaction,
+    updateTransaction,
+    deleteTransaction,
+    getTransactions
+} from "./state.js";
+
 import { renderTransactions, renderDashboard } from "./ui.js";
+
 import {
     validateDescription,
     validateAmount,
@@ -7,9 +14,11 @@ import {
     validateCategory,
     hasDuplicateWords
 } from "./validators.js";
+
 import { searchAndSortTransactions } from "./search.js";
 
 const form = document.querySelector("#transaction-form");
+const submitButton = form.querySelector('button[type="submit"]');
 
 const fields = {
     description: document.querySelector("#description"),
@@ -17,6 +26,8 @@ const fields = {
     category: document.querySelector("#category"),
     date: document.querySelector("#date")
 };
+
+const typeField = document.querySelector("#type");
 
 const errors = {
     description: document.querySelector("#description-error"),
@@ -36,6 +47,8 @@ const capStatus = document.querySelector("#cap-status");
 
 const CAP_STORAGE_KEY = "student-finance-tracker-spending-cap";
 
+let editingTransactionId = null;
+
 function loadSpendingCap() {
     try {
         const savedCap = localStorage.getItem(CAP_STORAGE_KEY);
@@ -45,7 +58,6 @@ function loadSpendingCap() {
         }
 
         const cap = Number(savedCap);
-
         return Number.isFinite(cap) && cap >= 0 ? cap : null;
     } catch (error) {
         console.error("Could not load spending cap:", error);
@@ -71,6 +83,7 @@ if (spendingCap !== null) {
 
 function showError(fieldName, message) {
     errors[fieldName].textContent = message;
+
     fields[fieldName].setAttribute(
         "aria-invalid",
         message ? "true" : "false"
@@ -128,6 +141,47 @@ function validateForm() {
     return isValid;
 }
 
+function resetEditing() {
+    editingTransactionId = null;
+    form.reset();
+    submitButton.textContent = "Add Transaction";
+
+    Object.keys(errors).forEach((fieldName) => {
+        showError(fieldName, "");
+    });
+}
+
+function startEditing(id) {
+    const transaction = getTransactions().find(
+        (item) => item.id === id
+    );
+
+    if (!transaction) {
+        searchStatus.textContent = "That transaction could not be found.";
+        return;
+    }
+
+    editingTransactionId = id;
+
+    fields.description.value = transaction.description;
+    fields.amount.value = String(transaction.amount);
+    typeField.value = transaction.type;
+    fields.category.value = transaction.category;
+    fields.date.value = transaction.date;
+
+    Object.keys(errors).forEach((fieldName) => {
+        showError(fieldName, "");
+    });
+
+    submitButton.textContent = "Save Changes";
+    fields.description.focus();
+
+    form.scrollIntoView({ behavior: "smooth", block: "center" });
+
+    searchStatus.textContent =
+        `Editing "${transaction.description}". Update the form and save your changes.`;
+}
+
 function updateCapStatus(transactions) {
     if (spendingCap === null) {
         capStatus.textContent = "Set a spending cap to get started.";
@@ -158,25 +212,29 @@ function updateCapStatus(transactions) {
 
 function updateTransactionList() {
     const allTransactions = getTransactions();
-    const query = searchInput.value;
 
     renderDashboard(allTransactions);
     updateCapStatus(allTransactions);
 
     const { results, error, pattern } = searchAndSortTransactions(
         allTransactions,
-        query,
+        searchInput.value,
         caseSensitiveInput.checked,
         sortSelect.value
     );
 
     if (error) {
         searchStatus.textContent = error;
+        renderTransactions([]);
         return;
     }
 
-    renderTransactions(results, query.trim() ? pattern : null);
-    searchStatus.textContent = `${results.length} transaction(s) found.`;
+    renderTransactions(results, searchInput.value.trim() ? pattern : null);
+
+    if (!error) {
+        searchStatus.textContent =
+            `${results.length} transaction(s) found.`;
+    }
 }
 
 capForm.addEventListener("submit", function (event) {
@@ -221,16 +279,32 @@ form.addEventListener("submit", function (event) {
         return;
     }
 
-    addTransaction({
+    const data = {
         description: fields.description.value,
         amount: fields.amount.value,
-        type: document.querySelector("#type").value,
+        type: typeField.value,
         category: fields.category.value,
         date: fields.date.value
-    });
+    };
+
+    if (editingTransactionId !== null) {
+        const success = updateTransaction(editingTransactionId, data);
+
+        if (!success) {
+            searchStatus.textContent =
+                "The transaction could not be updated. Please try again.";
+            return;
+        }
+
+        searchStatus.textContent = "Transaction updated successfully.";
+        resetEditing();
+    } else {
+        addTransaction(data);
+        form.reset();
+        searchStatus.textContent = "Transaction added successfully.";
+    }
 
     updateTransactionList();
-    form.reset();
     fields.description.focus();
 });
 
@@ -247,6 +321,56 @@ for (const field of Object.values(fields)) {
         }
     });
 }
+
+document.querySelector("#transaction-list").addEventListener(
+    "click",
+    function (event) {
+        const editButton = event.target.closest(".edit-transaction");
+        const deleteButton = event.target.closest(".delete-transaction");
+
+        if (editButton) {
+            startEditing(editButton.dataset.id);
+            return;
+        }
+
+        if (deleteButton) {
+            const id = deleteButton.dataset.id;
+
+            const transaction = getTransactions().find(
+                (item) => item.id === id
+            );
+
+            if (!transaction) {
+                searchStatus.textContent =
+                    "That transaction could not be found.";
+                return;
+            }
+
+            const confirmed = window.confirm(
+                `Delete "${transaction.description}"? This action cannot be undone.`
+            );
+
+            if (!confirmed) {
+                return;
+            }
+
+            const success = deleteTransaction(id);
+
+            if (!success) {
+                searchStatus.textContent =
+                    "The transaction could not be deleted.";
+                return;
+            }
+
+            if (editingTransactionId === id) {
+                resetEditing();
+            }
+
+            updateTransactionList();
+            searchStatus.textContent = "Transaction deleted successfully.";
+        }
+    }
+);
 
 searchInput.addEventListener("input", updateTransactionList);
 caseSensitiveInput.addEventListener("change", updateTransactionList);
