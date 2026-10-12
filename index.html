@@ -113,6 +113,35 @@
         <section aria-labelledby="history-heading">
             <h2 id="history-heading">Transaction History</h2>
 
+<div class="history-controls">
+    <label for="search-input">Search transactions</label>
+    <input
+        type="search"
+        id="search-input"
+        placeholder="Enter a word or regex pattern"
+        aria-describedby="search-help"
+    >
+    <p id="search-help">
+        You can search using regular expressions, such as
+        <code>coffee|tea</code>.
+    </p>
+
+    <label for="case-sensitive">Case-sensitive search</label>
+    <input type="checkbox" id="case-sensitive">
+
+    <label for="sort-by">Sort transactions by</label>
+    <select id="sort-by">
+        <option value="date-desc">Date: newest first</option>
+        <option value="date-asc">Date: oldest first</option>
+        <option value="description-asc">Description: A–Z</option>
+        <option value="description-desc">Description: Z–A</option>
+        <option value="amount-asc">Amount: lowest first</option>
+        <option value="amount-desc">Amount: highest first</option>
+    </select>
+
+    <p id="search-status" role="status" aria-live="polite"></p>
+</div>
+
             <div id="transaction-list" aria-live="polite">
                 <p>No transactions yet? What are you waiting for?</p>
             </div>

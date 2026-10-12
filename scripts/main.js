@@ -1,6 +1,6 @@
 
 import { addTransaction, getTransactions } from "./state.js";
-import { renderTransactions } from "./ui.js";
+import { renderTransactions, renderDashboard } from "./ui.js";
 import {
     validateDescription,
     validateAmount,
@@ -33,10 +33,7 @@ const searchStatus = document.querySelector("#search-status");
 
 function showError(fieldName, message) {
     errors[fieldName].textContent = message;
-    fields[fieldName].setAttribute(
-        "aria-invalid",
-        message ? "true" : "false"
-    );
+    fields[fieldName].setAttribute("aria-invalid", message ? "true" : "false");
 }
 
 function validateForm() {
@@ -82,10 +79,13 @@ function validateForm() {
 }
 
 function updateTransactionList() {
+    const allTransactions = getTransactions();
     const query = searchInput.value;
 
+    renderDashboard(allTransactions);
+
     const { results, error, pattern } = searchAndSortTransactions(
-        getTransactions(),
+        allTransactions,
         query,
         caseSensitiveInput.checked,
         sortSelect.value
@@ -139,3 +139,5 @@ for (const field of Object.values(fields)) {
 searchInput.addEventListener("input", updateTransactionList);
 caseSensitiveInput.addEventListener("change", updateTransactionList);
 sortSelect.addEventListener("change", updateTransactionList);
+
+updateTransactionList();

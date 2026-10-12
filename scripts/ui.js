@@ -1,5 +1,8 @@
 
 const transactionList = document.querySelector("#transaction-list");
+const balanceElement = document.querySelector("#balance");
+const incomeElement = document.querySelector("#income");
+const expensesElement = document.querySelector("#expenses");
 
 function appendHighlightedText(element, text, pattern) {
     const value = String(text);
@@ -9,7 +12,6 @@ function appendHighlightedText(element, text, pattern) {
         return;
     }
 
-    // Use a fresh regex so repeated searches behave consistently.
     const flags = pattern.flags.replace("g", "");
     const regex = new RegExp(pattern.source, `${flags}g`);
     let lastIndex = 0;
@@ -26,7 +28,6 @@ function appendHighlightedText(element, text, pattern) {
 
         lastIndex = match.index + match[0].length;
 
-        // Avoid an infinite loop for patterns that match empty strings.
         if (match[0].length === 0) {
             regex.lastIndex++;
         }
@@ -57,12 +58,27 @@ function renderTransactions(transactions, pattern = null) {
             `${transaction.type === "income" ? "+" : "-"} RWF ${transaction.amount.toFixed(2)}`;
 
         const details = document.createElement("p");
-        details.textContent =
-            `${transaction.category} · ${transaction.date}`;
+        details.textContent = `${transaction.category} · ${transaction.date}`;
 
         card.append(description, amount, details);
         transactionList.append(card);
     });
 }
 
-export { renderTransactions };
+function renderDashboard(transactions) {
+    const income = transactions
+        .filter((transaction) => transaction.type === "income")
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const expenses = transactions
+        .filter((transaction) => transaction.type === "expense")
+        .reduce((total, transaction) => total + transaction.amount, 0);
+
+    const balance = income - expenses;
+
+    incomeElement.textContent = `RWF ${income.toFixed(2)}`;
+    expensesElement.textContent = `RWF ${expenses.toFixed(2)}`;
+    balanceElement.textContent = `RWF ${balance.toFixed(2)}`;
+}
+
+export { renderTransactions, renderDashboard };
