@@ -1,8 +1,10 @@
-
 const transactionList = document.querySelector("#transaction-list");
 const balanceElement = document.querySelector("#balance");
 const incomeElement = document.querySelector("#income");
 const expensesElement = document.querySelector("#expenses");
+const totalTransactionsElement = document.querySelector("#total-transactions");
+const topCategoryElement = document.querySelector("#top-category");
+const weeklyTrendElement = document.querySelector("#weekly-trend");
 
 function appendHighlightedText(element, text, pattern) {
     const value = String(text);
@@ -65,6 +67,109 @@ function renderTransactions(transactions, pattern = null) {
     });
 }
 
+function getLocalDateKey(date) {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
+}
+
+function renderTopCategory(transactions) {
+    const categoryTotals = {};
+
+    transactions
+        .filter((transaction) => transaction.type === "expense")
+        .forEach((transaction) => {
+            categoryTotals[transaction.category] =
+                (categoryTotals[transaction.category] || 0) +
+                transaction.amount;
+        });
+
+    const categories = Object.entries(categoryTotals);
+
+    if (categories.length === 0) {
+        topCategoryElement.textContent = "None yet";
+        return;
+    }
+
+    categories.sort((a, b) => b[1] - a[1]);
+
+    const [category, total] = categories[0];
+
+    topCategoryElement.textContent =
+        `${category} — RWF ${total.toFixed(2)}`;
+}
+
+function renderWeeklyTrend(transactions) {
+    weeklyTrendElement.replaceChildren();
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const days = [];
+
+    for (let offset = 6; offset >= 0; offset--) {
+        const date = new Date(today);
+        date.setDate(today.getDate() - offset);
+
+        days.push({
+            dateKey: getLocalDateKey(date),
+            label: date.toLocaleDateString("en", {
+                weekday: "short"
+            }),
+            total: 0
+        });
+    }
+
+    const totalsByDate = {};
+
+    transactions
+        .filter((transaction) => transaction.type === "expense")
+        .forEach((transaction) => {
+            totalsByDate[transaction.date] =
+                (totalsByDate[transaction.date] || 0) +
+                transaction.amount;
+        });
+
+    days.forEach((day) => {
+        day.total = totalsByDate[day.dateKey] || 0;
+    });
+
+    const highestTotal = Math.max(...days.map((day) => day.total));
+
+    days.forEach((day) => {
+        const dayColumn = document.createElement("div");
+        dayColumn.className = "trend-day";
+
+        const amount = document.createElement("span");
+        amount.className = "trend-amount";
+        amount.textContent = `RWF ${day.total.toFixed(0)}`;
+
+        const barTrack = document.createElement("div");
+        barTrack.className = "trend-bar-track";
+
+        const bar = document.createElement("div");
+        bar.className = "trend-bar";
+
+        const height = highestTotal > 0
+            ? (day.total / highestTotal) * 100
+            : 0;
+
+        bar.style.height = `${height}%`;
+        bar.setAttribute("aria-hidden", "true");
+
+        barTrack.append(bar);
+
+        const label = document.createElement("span");
+        label.className = "trend-label";
+        label.textContent = day.label;
+
+        dayColumn.append(amount, barTrack, label);
+        weeklyTrendElement.append(dayColumn);
+    });
+}
+
 function renderDashboard(transactions) {
     const income = transactions
         .filter((transaction) => transaction.type === "income")
@@ -79,6 +184,11 @@ function renderDashboard(transactions) {
     incomeElement.textContent = `RWF ${income.toFixed(2)}`;
     expensesElement.textContent = `RWF ${expenses.toFixed(2)}`;
     balanceElement.textContent = `RWF ${balance.toFixed(2)}`;
+
+    totalTransactionsElement.textContent = String(transactions.length);
+
+    renderTopCategory(transactions);
+    renderWeeklyTrend(transactions);
 }
 
 export { renderTransactions, renderDashboard };

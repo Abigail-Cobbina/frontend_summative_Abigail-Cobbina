@@ -1,87 +1,64 @@
-
-/* Basic reset */
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+/* Dashboard weekly expense trend */
+.weekly-trend {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 8px;
+    align-items: end;
+    min-height: 200px;
+    padding: 15px 5px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    background-color: #fafafa;
 }
 
-/* Whole page */
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f6f9;
-    color: #222;
-    line-height: 1.6;
-    padding: 20px;
-}
-
-/* Page header */
-header {
-    text-align: center;
-    margin-bottom: 30px;
-}
-
-/* Main content */
-main {
-    max-width: 1000px;
-    margin: 0 auto;
-}
-
-/* Sections */
-section {
-    background-color: white;
-    padding: 20px;
-    margin-bottom: 25px;
-    border-radius: 10px;
-}
-
-/* Section headings */
-h2 {
-    margin-bottom: 15px;
-}
-
-
-/* Page heading */
-header h1 {
-    margin-bottom: 10px;
-}
-
-header p {
-    color: #555;
-}
-
-/* Summary cards */
-.summary-cards {
+.trend-day {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+    height: 170px;
 }
 
-.summary-cards article {
-    background-color: #eef2ff;
-    padding: 20px;
-    border-radius: 8px;
-    border-left: 5px solid #4f46e5;
+.trend-amount {
+    font-size: 0.7rem;
+    text-align: center;
+    overflow-wrap: anywhere;
 }
 
-.summary-cards h3 {
-    margin-bottom: 8px;
+.trend-bar-track {
+    display: flex;
+    align-items: end;
+    width: 100%;
+    max-width: 36px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 5px 5px 0 0;
+    background-color: #e5e7eb;
 }
 
-.summary-cards p {
-    font-size: 1.2rem;
+.trend-bar {
+    width: 100%;
+    min-height: 0;
+    border-radius: 5px 5px 0 0;
+    background-color: #4f46e5;
+    transition: height 0.3s ease;
+}
+
+.trend-label {
+    font-size: 0.8rem;
     font-weight: bold;
 }
 
-/* Transaction form */
-#transaction-form {
+/* Spending cap form */
+#cap-form {
     display: flex;
     flex-direction: column;
     gap: 10px;
+    margin-top: 12px;
 }
 
-#transaction-form input,
-#transaction-form select {
+#cap-form input {
     width: 100%;
     padding: 10px;
     border: 1px solid #ccc;
@@ -89,7 +66,7 @@ header p {
     font: inherit;
 }
 
-#transaction-form button {
+#cap-form button {
     padding: 12px;
     background-color: #4f46e5;
     color: white;
@@ -99,147 +76,61 @@ header p {
     cursor: pointer;
 }
 
-#transaction-form button:hover {
+#cap-form button:hover {
     background-color: #3730a3;
 }
 
-/* Footer */
-footer {
-    text-align: center;
-    color: #555;
-    padding: 20px;
-}
-
-/* Keyboard accessibility */
-input:focus-visible,
-select:focus-visible,
-button:focus-visible {
+#cap-form button:focus-visible {
     outline: 3px solid #f59e0b;
     outline-offset: 2px;
 }
 
-/* Tablet screens: 768px and wider */
+#cap-status {
+    margin-top: 12px;
+    padding: 10px;
+    border-radius: 5px;
+    overflow-wrap: anywhere;
+}
+
+/* Keep dashboard sections visually distinct */
+#summary-heading + .summary-cards {
+    margin-bottom: 25px;
+}
+
+#trend-heading,
+#cap-heading {
+    margin-bottom: 10px;
+}
+
+/* Give summary cards room to wrap on tablets */
 @media (min-width: 768px) {
     .summary-cards {
-        flex-direction: row;
+        flex-wrap: wrap;
     }
 
     .summary-cards article {
-        flex: 1;
-    }
-}
-
-/* Desktop screens: 1024px and wider */
-@media (min-width: 1024px) {
-    body {
-        padding: 30px;
+        flex: 1 1 200px;
     }
 
-    main {
-        max-width: 1100px;
-    }
-}
-
-
-/* Larger screens: organize the form into two columns */
-@media (min-width: 768px) {
-    #transaction-form {
+    #cap-form {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: 12px 20px;
+        align-items: end;
     }
 
-    #transaction-form label {
-        align-self: end;
-    }
-
-    #transaction-form button {
+    #cap-form button {
         grid-column: 1 / -1;
     }
 }
 
-
-/* Navigation */
-nav {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 20px;
-}
-
-nav a {
-    color: #3730a3;
-    text-decoration: none;
-    font-weight: bold;
-}
-
-nav a:hover {
-    text-decoration: underline;
-}
-
-/* Skip link: visible when keyboard-focused */
-.skip-link {
-    position: absolute;
-    top: -100px;
-    left: 10px;
-    background-color: white;
-    color: #222;
-    padding: 10px;
-    z-index: 100;
-}
-
-.skip-link:focus {
-    top: 10px;
-    border: 2px solid #3730a3;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-/* Keyboard focus for navigation */
-nav a:focus-visible {
-    outline: 3px solid #f59e0b;
-    outline-offset: 4px;
-}
-
-
-/* Transaction history */
-#transaction-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-/* Individual transaction cards */
-.transaction-card {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 15px;
-    overflow-wrap: anywhere;
-}
-
-/* Transaction card headings */
-.transaction-card h3 {
-    margin-bottom: 8px;
-}
-
-/* Tablet and desktop transaction layout */
-@media (min-width: 768px) {
-    #transaction-list {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
+/* Make chart labels easier to read on wider screens */
+@media (min-width: 1024px) {
+    .weekly-trend {
+        gap: 16px;
+        padding: 20px;
     }
-}
 
-/* Small mobile screens */
-@media (min-width: 360px) {
-    body {
-        padding: 15px;
+    .trend-amount {
+        font-size: 0.85rem;
     }
-}
-
-/* Smooth button hover transition */
-#transaction-form button {
-    transition: background-color 0.2s ease;
 }

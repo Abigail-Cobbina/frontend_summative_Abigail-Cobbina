@@ -28,19 +28,68 @@
             <div class="summary-cards">
                 <article>
                     <h3>Total Balance</h3>
-                    <p id="balance">RWF 0</p>
+                    <p id="balance">RWF 0.00</p>
                 </article>
 
                 <article>
                     <h3>Total Income</h3>
-                    <p id="income">RWF 0</p>
+                    <p id="income">RWF 0.00</p>
                 </article>
 
                 <article>
                     <h3>Total Expenses</h3>
-                    <p id="expenses">RWF 0</p>
+                    <p id="expenses">RWF 0.00</p>
+                </article>
+
+                <article>
+                    <h3>Total Transactions</h3>
+                    <p id="total-transactions">0</p>
+                </article>
+
+                <article>
+                    <h3>Top Spending Category</h3>
+                    <p id="top-category">None yet</p>
                 </article>
             </div>
+
+            <section aria-labelledby="trend-heading">
+                <h3 id="trend-heading">Last 7 Days</h3>
+                <p>Daily expenses over the last seven days.</p>
+                <div
+                    id="weekly-trend"
+                    class="weekly-trend"
+                    role="img"
+                    aria-label="Daily expense trend for the last seven days"
+                >
+                    <p>No expense data yet.</p>
+                </div>
+            </section>
+
+            <section aria-labelledby="cap-heading">
+                <h3 id="cap-heading">Spending Cap</h3>
+                <p>Set a limit for your expenses to help manage your money.</p>
+
+                <form id="cap-form">
+                    <label for="spending-cap">Expense cap (RWF)</label>
+                    <input
+                        type="number"
+                        id="spending-cap"
+                        name="spending-cap"
+                        min="0"
+                        step="0.01"
+                        placeholder="e.g. 50000"
+                        required
+                    >
+                    <button type="submit">Save Spending Cap</button>
+                </form>
+
+                <p
+                    id="cap-status"
+                    role="status"
+                    aria-live="polite"
+                    aria-atomic="true"
+                >Set a spending cap to get started.</p>
+            </section>
         </section>
 
         <section aria-labelledby="transaction-heading">
@@ -113,34 +162,34 @@
         <section aria-labelledby="history-heading">
             <h2 id="history-heading">Transaction History</h2>
 
-<div class="history-controls">
-    <label for="search-input">Search transactions</label>
-    <input
-        type="search"
-        id="search-input"
-        placeholder="Enter a word or regex pattern"
-        aria-describedby="search-help"
-    >
-    <p id="search-help">
-        You can search using regular expressions, such as
-        <code>coffee|tea</code>.
-    </p>
+            <div class="history-controls">
+                <label for="search-input">Search transactions</label>
+                <input
+                    type="search"
+                    id="search-input"
+                    placeholder="Enter a word or regex pattern"
+                    aria-describedby="search-help"
+                >
+                <p id="search-help">
+                    You can search using regular expressions, such as
+                    <code>coffee|tea</code>.
+                </p>
 
-    <label for="case-sensitive">Case-sensitive search</label>
-    <input type="checkbox" id="case-sensitive">
+                <label for="case-sensitive">Case-sensitive search</label>
+                <input type="checkbox" id="case-sensitive">
 
-    <label for="sort-by">Sort transactions by</label>
-    <select id="sort-by">
-        <option value="date-desc">Date: newest first</option>
-        <option value="date-asc">Date: oldest first</option>
-        <option value="description-asc">Description: A–Z</option>
-        <option value="description-desc">Description: Z–A</option>
-        <option value="amount-asc">Amount: lowest first</option>
-        <option value="amount-desc">Amount: highest first</option>
-    </select>
+                <label for="sort-by">Sort transactions by</label>
+                <select id="sort-by">
+                    <option value="date-desc">Date: newest first</option>
+                    <option value="date-asc">Date: oldest first</option>
+                    <option value="description-asc">Description: A–Z</option>
+                    <option value="description-desc">Description: Z–A</option>
+                    <option value="amount-asc">Amount: lowest first</option>
+                    <option value="amount-desc">Amount: highest first</option>
+                </select>
 
-    <p id="search-status" role="status" aria-live="polite"></p>
-</div>
+                <p id="search-status" role="status" aria-live="polite"></p>
+            </div>
 
             <div id="transaction-list" aria-live="polite">
                 <p>No transactions yet? What are you waiting for?</p>
