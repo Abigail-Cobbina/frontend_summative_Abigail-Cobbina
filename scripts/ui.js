@@ -1,3 +1,4 @@
+
 const transactionList = document.querySelector("#transaction-list");
 const balanceElement = document.querySelector("#balance");
 const incomeElement = document.querySelector("#income");
@@ -5,6 +6,32 @@ const expensesElement = document.querySelector("#expenses");
 const totalTransactionsElement = document.querySelector("#total-transactions");
 const topCategoryElement = document.querySelector("#top-category");
 const weeklyTrendElement = document.querySelector("#weekly-trend");
+
+function getCurrencySettings() {
+    try {
+        const saved = localStorage.getItem("student-finance-tracker-currency");
+        return saved
+            ? JSON.parse(saved)
+            : { baseCurrency: "RWF", usdRate: 1 / 1400, eurRate: 1 / 1600 };
+    } catch {
+        return { baseCurrency: "RWF", usdRate: 1 / 1400, eurRate: 1 / 1600 };
+    }
+}
+
+function formatMoney(amount) {
+    const settings = getCurrencySettings();
+    const currency = settings.baseCurrency || "RWF";
+
+    let convertedAmount = Number(amount) || 0;
+
+    if (currency === "USD") {
+        convertedAmount *= Number(settings.usdRate) || (1 / 1400);
+    } else if (currency === "EUR") {
+        convertedAmount *= Number(settings.eurRate) || (1 / 1600);
+    }
+
+    return `${currency} ${convertedAmount.toFixed(2)}`;
+}
 
 function appendHighlightedText(element, text, pattern) {
     const value = String(text);
@@ -56,8 +83,8 @@ function renderTransactions(transactions, pattern = null) {
         appendHighlightedText(description, transaction.description, pattern);
 
         const amount = document.createElement("p");
-        amount.textContent =
-            `${transaction.type === "income" ? "+" : "-"} RWF ${transaction.amount.toFixed(2)}`;
+        const sign = transaction.type === "income" ? "+" : "-";
+        amount.textContent = `${sign} ${formatMoney(transaction.amount)}`;
 
         const details = document.createElement("p");
         details.textContent = `${transaction.category} · ${transaction.date}`;
@@ -95,7 +122,6 @@ function getLocalDateKey(date) {
     const year = date.getFullYear();
     const month = String(date.getMonth() + 1).padStart(2, "0");
     const day = String(date.getDate()).padStart(2, "0");
-
     return `${year}-${month}-${day}`;
 }
 
@@ -120,9 +146,7 @@ function renderTopCategory(transactions) {
     categories.sort((a, b) => b[1] - a[1]);
 
     const [category, total] = categories[0];
-
-    topCategoryElement.textContent =
-        `${category} — RWF ${total.toFixed(2)}`;
+    topCategoryElement.textContent = `${category} — ${formatMoney(total)}`;
 }
 
 function renderWeeklyTrend(transactions) {
@@ -139,9 +163,7 @@ function renderWeeklyTrend(transactions) {
 
         days.push({
             dateKey: getLocalDateKey(date),
-            label: date.toLocaleDateString("en", {
-                weekday: "short"
-            }),
+            label: date.toLocaleDateString("en", { weekday: "short" }),
             total: 0
         });
     }
@@ -168,7 +190,7 @@ function renderWeeklyTrend(transactions) {
 
         const amount = document.createElement("span");
         amount.className = "trend-amount";
-        amount.textContent = `RWF ${day.total.toFixed(0)}`;
+        amount.textContent = formatMoney(day.total);
 
         const barTrack = document.createElement("div");
         barTrack.className = "trend-bar-track";
@@ -205,10 +227,9 @@ function renderDashboard(transactions) {
 
     const balance = income - expenses;
 
-    incomeElement.textContent = `RWF ${income.toFixed(2)}`;
-    expensesElement.textContent = `RWF ${expenses.toFixed(2)}`;
-    balanceElement.textContent = `RWF ${balance.toFixed(2)}`;
-
+    incomeElement.textContent = formatMoney(income);
+    expensesElement.textContent = formatMoney(expenses);
+    balanceElement.textContent = formatMoney(balance);
     totalTransactionsElement.textContent = String(transactions.length);
 
     renderTopCategory(transactions);
