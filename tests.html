@@ -1,0 +1,277 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finance Tracker - Validation Tests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 24px;
+            line-height: 1.6;
+        }
+
+        h1 {
+            margin-bottom: 8px;
+        }
+
+        .summary {
+            padding: 16px;
+            border-radius: 8px;
+            background: #f0f4f8;
+            margin: 20px 0;
+        }
+
+        .test {
+            padding: 12px;
+            margin-bottom: 8px;
+            border-left: 5px solid #777;
+            background: #f7f7f7;
+        }
+
+        .pass {
+            border-color: #16803c;
+        }
+
+        .fail {
+            border-color: #c62828;
+        }
+
+        .status {
+            font-weight: bold;
+        }
+
+        .pass .status {
+            color: #16803c;
+        }
+
+        .fail .status {
+            color: #c62828;
+        }
+
+        a:focus-visible {
+            outline: 3px solid #1457c5;
+            outline-offset: 3px;
+        }
+    </style>
+</head>
+<body>
+    <a href="#main">Skip to test results</a>
+
+    <main id="main">
+        <h1>Student Finance Tracker</h1>
+        <p>Validation and regular expression test results.</p>
+
+        <div id="summary" class="summary" role="status" aria-live="polite">
+            Running tests...
+        </div>
+
+        <div id="results" aria-label="Individual test results"></div>
+
+        <p><a href="index.html">Return to the application</a></p>
+    </main>
+
+    <script type="module">
+        import {
+            validateDescription,
+            validateAmount,
+            validateDate,
+            validateCategory,
+            hasDuplicateWords
+        } from "./scripts/validators.js";
+
+        const tests = [
+            {
+                name: "Description accepts normal text",
+                rule: "Description",
+                input: "Weekly groceries",
+                expected: true,
+                run: validateDescription
+            },
+            {
+                name: "Description rejects leading spaces",
+                rule: "Description",
+                input: " Weekly groceries",
+                expected: false,
+                run: validateDescription
+            },
+            {
+                name: "Description rejects trailing spaces",
+                rule: "Description",
+                input: "Weekly groceries ",
+                expected: false,
+                run: validateDescription
+            },
+            {
+                name: "Description rejects repeated spaces",
+                rule: "Description",
+                input: "Weekly  groceries",
+                expected: false,
+                run: validateDescription
+            },
+            {
+                name: "Amount accepts a whole number",
+                rule: "Amount",
+                input: "2500",
+                expected: true,
+                run: validateAmount
+            },
+            {
+                name: "Amount accepts two decimal places",
+                rule: "Amount",
+                input: "2500.75",
+                expected: true,
+                run: validateAmount
+            },
+            {
+                name: "Amount rejects more than two decimal places",
+                rule: "Amount",
+                input: "2500.755",
+                expected: false,
+                run: validateAmount
+            },
+            {
+                name: "Amount rejects leading zeros",
+                rule: "Amount",
+                input: "025",
+                expected: false,
+                run: validateAmount
+            },
+            {
+                name: "Amount rejects negative values",
+                rule: "Amount",
+                input: "-25",
+                expected: false,
+                run: validateAmount
+            },
+            {
+                name: "Date accepts a valid date",
+                rule: "Date",
+                input: "2026-10-12",
+                expected: true,
+                run: validateDate
+            },
+            {
+                name: "Date rejects an invalid month",
+                rule: "Date",
+                input: "2026-13-12",
+                expected: false,
+                run: validateDate
+            },
+            {
+                name: "Date rejects February 30",
+                rule: "Date",
+                input: "2026-02-30",
+                expected: false,
+                run: validateDate
+            },
+            {
+                name: "Date rejects an invalid day format",
+                rule: "Date",
+                input: "2026-10-2",
+                expected: false,
+                run: validateDate
+            },
+            {
+                name: "Category accepts a single word",
+                rule: "Category",
+                input: "Transport",
+                expected: true,
+                run: validateCategory
+            },
+            {
+                name: "Category accepts spaces and hyphens",
+                rule: "Category",
+                input: "Personal Care",
+                expected: true,
+                run: validateCategory
+            },
+            {
+                name: "Category rejects numbers",
+                rule: "Category",
+                input: "Food2",
+                expected: false,
+                run: validateCategory
+            },
+            {
+                name: "Category rejects leading spaces",
+                rule: "Category",
+                input: " Food",
+                expected: false,
+                run: validateCategory
+            },
+            {
+                name: "Duplicate-word rule detects repeated words",
+                rule: "Advanced regex",
+                input: "food food",
+                expected: true,
+                run: hasDuplicateWords
+            },
+            {
+                name: "Duplicate-word rule ignores letter case",
+                rule: "Advanced regex",
+                input: "Food food",
+                expected: true,
+                run: hasDuplicateWords
+            },
+            {
+                name: "Duplicate-word rule accepts different words",
+                rule: "Advanced regex",
+                input: "food transport",
+                expected: false,
+                run: hasDuplicateWords
+            }
+        ];
+
+        const resultsContainer = document.querySelector("#results");
+        const summary = document.querySelector("#summary");
+        let passed = 0;
+
+        tests.forEach((test) => {
+            let actual;
+            let error = null;
+
+            try {
+                actual = test.run(test.input);
+            } catch (testError) {
+                error = testError.message;
+            }
+
+            const success = !error && actual === test.expected;
+
+            if (success) {
+                passed++;
+            }
+
+            const item = document.createElement("section");
+            item.className = `test ${success ? "pass" : "fail"}`;
+
+            const heading = document.createElement("h2");
+            heading.textContent = test.name;
+
+            const details = document.createElement("p");
+            details.textContent =
+                `Rule: ${test.rule} | Input: "${test.input}" | ` +
+                `Expected: ${test.expected} | Actual: ${error || actual}`;
+
+            const status = document.createElement("p");
+            status.className = "status";
+            status.textContent = success ? "PASS" : "FAIL";
+
+            item.append(heading, details, status);
+            resultsContainer.append(item);
+        });
+
+        summary.textContent =
+            `${passed} of ${tests.length} tests passed. ` +
+            `${tests.length - passed} failed.`;
+
+        summary.style.borderLeft = passed === tests.length
+            ? "5px solid #16803c"
+            : "5px solid #c62828";
+    </script>
+</body>
+</html>

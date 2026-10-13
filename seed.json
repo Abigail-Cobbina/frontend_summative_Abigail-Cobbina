@@ -1,0 +1,126 @@
+
+{
+  "version": 1,
+  "transactions": [
+    {
+      "id": "seed001",
+      "description": "Monthly salary",
+      "amount": 450000,
+      "type": "income",
+      "category": "Salary",
+      "date": "2026-10-01",
+      "createdAt": "2026-10-01T08:00:00.000Z",
+      "updatedAt": "2026-10-01T08:00:00.000Z"
+    },
+    {
+      "id": "seed002",
+      "description": "Freelance website project",
+      "amount": 85000,
+      "type": "income",
+      "category": "Freelance",
+      "date": "2026-10-03",
+      "createdAt": "2026-10-03T10:00:00.000Z",
+      "updatedAt": "2026-10-03T10:00:00.000Z"
+    },
+    {
+      "id": "seed003",
+      "description": "Weekly groceries",
+      "amount": 32000,
+      "type": "expense",
+      "category": "Food",
+      "date": "2026-10-04",
+      "createdAt": "2026-10-04T12:00:00.000Z",
+      "updatedAt": "2026-10-04T12:00:00.000Z"
+    },
+    {
+      "id": "seed004",
+      "description": "Monthly rent",
+      "amount": 120000,
+      "type": "expense",
+      "category": "Housing",
+      "date": "2026-10-01",
+      "createdAt": "2026-10-01T09:00:00.000Z",
+      "updatedAt": "2026-10-01T09:00:00.000Z"
+    },
+    {
+      "id": "seed005",
+      "description": "Bus and moto transport",
+      "amount": 8500,
+      "type": "expense",
+      "category": "Transport",
+      "date": "2026-10-06",
+      "createdAt": "2026-10-06T07:30:00.000Z",
+      "updatedAt": "2026-10-06T07:30:00.000Z"
+    },
+    {
+      "id": "seed006",
+      "description": "Internet data bundle",
+      "amount": 5000,
+      "type": "expense",
+      "category": "Utilities",
+      "date": "2026-10-07",
+      "createdAt": "2026-10-07T08:00:00.000Z",
+      "updatedAt": "2026-10-07T08:00:00.000Z"
+    },
+    {
+      "id": "seed007",
+      "description": "Books and stationery",
+      "amount": 12500,
+      "type": "expense",
+      "category": "Education",
+      "date": "2026-10-08",
+      "createdAt": "2026-10-08T11:00:00.000Z",
+      "updatedAt": "2026-10-08T11:00:00.000Z"
+    },
+    {
+      "id": "seed008",
+      "description": "Dinner with friends",
+      "amount": 9500,
+      "type": "expense",
+      "category": "Food",
+      "date": "2026-10-09",
+      "createdAt": "2026-10-09T19:00:00.000Z",
+      "updatedAt": "2026-10-09T19:00:00.000Z"
+    },
+    {
+      "id": "seed009",
+      "description": "Mobile phone repair",
+      "amount": 18000,
+      "type": "expense",
+      "category": "Personal",
+      "date": "2026-10-10",
+      "createdAt": "2026-10-10T14:00:00.000Z",
+      "updatedAt": "2026-10-10T14:00:00.000Z"
+    },
+    {
+      "id": "seed010",
+      "description": "Tutoring income",
+      "amount": 25000,
+      "type": "income",
+      "category": "Freelance",
+      "date": "2026-10-11",
+      "createdAt": "2026-10-11T16:00:00.000Z",
+      "updatedAt": "2026-10-11T16:00:00.000Z"
+    },
+    {
+      "id": "seed011",
+      "description": "Laundry supplies",
+      "amount": 6500,
+      "type": "expense",
+      "category": "Household",
+      "date": "2026-10-12",
+      "createdAt": "2026-10-12T09:00:00.000Z",
+      "updatedAt": "2026-10-12T09:00:00.000Z"
+    },
+    {
+      "id": "seed012",
+      "description": "Emergency savings deposit",
+      "amount": 40000,
+      "type": "expense",
+      "category": "Savings",
+      "date": "2026-10-12",
+      "createdAt": "2026-10-12T17:00:00.000Z",
+      "updatedAt": "2026-10-12T17:00:00.000Z"
+    }
+  ]
+}
