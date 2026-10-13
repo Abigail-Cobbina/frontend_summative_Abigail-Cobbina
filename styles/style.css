@@ -1,18 +1,33 @@
-/* ===== Global styles ===== */
+
+/* =========================================
+   STUDENT FINANCE TRACKER
+   Clean, responsive, accessible stylesheet
+   ========================================= */
+
+/* 1. Theme variables */
 :root {
-    --primary: #4f46e5;
-    --primary-dark: #3730a3;
-    --page-bg: #f5f7fb;
+    --primary: #1c6cff;
+    --primary-dark: #174bb5;
+    --navy: #071a35;
+    --page-bg: #ffffff;
     --surface: #ffffff;
-    --text: #1f2937;
-    --muted: #64748b;
-    --border: #e2e8f0;
+    --surface-muted: #f8fafc;
+    --text: #172033;
+    --muted: #526176;
+    --border: #dbe3ef;
     --danger: #b91c1c;
+    --success: #15803d;
     --radius: 14px;
-    --shadow: 0 5px 20px rgba(15, 23, 42, 0.06);
+    --shadow: 0 4px 14px rgb(15 23 42 / 8%);
+
+    --finance-bg-image:
+        url("https://www.ollusa.edu/blog/_resources/what-is-corporate-finance.png");
 }
 
-* {
+/* 2. Global styles and accessibility */
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
@@ -21,9 +36,19 @@ html {
 }
 
 body {
+    min-height: 100vh;
     margin: 0;
-    background: var(--page-bg);
     color: var(--text);
+    background-color: var(--page-bg);
+    background-image:
+        linear-gradient(
+            rgb(255 255 255 / 35%),
+            rgb(255 255 255 / 45%)
+        ),
+        var(--finance-bg-image);
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
     font-family: Arial, Helvetica, sans-serif;
     font-size: 16px;
     line-height: 1.6;
@@ -31,40 +56,9 @@ body {
 
 button,
 input,
-select {
+select,
+textarea {
     font: inherit;
-}
-
-button {
-    min-height: 42px;
-    padding: 10px 16px;
-    border: 0;
-    border-radius: 8px;
-    background: var(--primary);
-    color: white;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background 0.2s ease, transform 0.2s ease;
-}
-
-button:hover {
-    background: var(--primary-dark);
-}
-
-button:active {
-    transform: translateY(1px);
-}
-
-button:focus-visible,
-a:focus-visible,
-input:focus-visible,
-select:focus-visible {
-    outline: 3px solid #f59e0b;
-    outline-offset: 3px;
-}
-
-a {
-    color: var(--primary);
 }
 
 p {
@@ -75,13 +69,31 @@ p {
     display: none !important;
 }
 
-/* ===== Skip link ===== */
+a {
+    color: var(--primary-dark);
+}
+
+a:hover {
+    color: var(--primary);
+}
+
+button:focus-visible,
+a:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+    outline: 3px solid #f59e0b;
+    outline-offset: 3px;
+}
+
+/* Skip link */
 .skip-link {
     position: absolute;
     top: -100px;
     left: 12px;
     z-index: 100;
     padding: 10px 16px;
+    color: var(--text);
     background: white;
     border: 2px solid var(--primary);
     border-radius: 8px;
@@ -91,16 +103,18 @@ p {
     top: 12px;
 }
 
-/* ===== Header and navigation ===== */
+/* 3. Header and navigation */
 body > header {
     padding: 28px 20px;
-    background: linear-gradient(135deg, #312e81, #4f46e5);
     color: white;
+    background: var(--navy);
+    border-bottom: 3px solid var(--primary);
 }
 
 body > header h1 {
     max-width: 1200px;
     margin: 0 auto;
+    color: white;
     font-size: clamp(1.7rem, 4vw, 2.4rem);
     line-height: 1.2;
 }
@@ -108,33 +122,40 @@ body > header h1 {
 body > header > p {
     max-width: 1200px;
     margin: 10px auto 20px;
-    color: #e0e7ff;
+    color: #e2e8f0;
 }
 
-nav {
+header nav {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 10px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 20px auto 0;
 }
 
-nav a {
+header nav a {
     display: inline-block;
     padding: 9px 14px;
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 8px;
     color: white;
+    background: rgb(255 255 255 / 8%);
+    border: 1px solid rgb(255 255 255 / 25%);
+    border-radius: 8px;
+    font-weight: 600;
     text-decoration: none;
+    transition: background-color 0.2s, color 0.2s;
 }
 
-nav a:hover,
-nav a[aria-current="page"] {
+header nav a:hover,
+header nav a[aria-current="page"] {
+    color: var(--navy);
     background: white;
-    color: #312e81;
 }
 
-/* ===== Main layout ===== */
+header nav a:focus-visible {
+    outline-color: #fbbf24;
+}
+
+/* 4. Main layout and headings */
 main {
     width: min(1200px, calc(100% - 32px));
     margin: 30px auto;
@@ -143,27 +164,38 @@ main {
 main > section {
     margin-bottom: 28px;
     padding: clamp(18px, 3vw, 30px);
+    color: var(--text);
+    background: rgb(255 255 255 / 96%);
     border: 1px solid var(--border);
     border-radius: var(--radius);
-    background: var(--surface);
     box-shadow: var(--shadow);
 }
 
 h2 {
     margin: 0 0 22px;
+    color: var(--navy);
     font-size: clamp(1.35rem, 3vw, 1.8rem);
     line-height: 1.3;
 }
 
 h3 {
     margin-top: 0;
+    color: var(--navy);
     font-size: 1.1rem;
 }
 
-/* ===== Dashboard cards ===== */
+h4 {
+    color: var(--navy);
+}
+
+strong {
+    color: var(--navy);
+}
+
+/* 5. Dashboard summary cards */
 .summary-cards {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
     margin-bottom: 30px;
 }
@@ -171,9 +203,11 @@ h3 {
 .summary-cards article {
     min-width: 0;
     padding: 20px;
+    color: var(--text);
+    background: white;
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: #fafaff;
+    box-shadow: var(--shadow);
 }
 
 .summary-cards h3 {
@@ -185,12 +219,34 @@ h3 {
 
 .summary-cards p {
     margin: 0;
-    color: #312e81;
+    color: var(--navy);
     font-size: clamp(1.15rem, 3vw, 1.6rem);
     font-weight: 700;
+    overflow-wrap: anywhere;
 }
 
-/* ===== Forms and fields ===== */
+#balance,
+#income,
+#expenses,
+#total-transactions,
+#top-category {
+    font-weight: 700;
+    overflow-wrap: anywhere;
+}
+
+#balance {
+    color: var(--primary-dark);
+}
+
+#income {
+    color: var(--success);
+}
+
+#expenses {
+    color: var(--danger);
+}
+
+/* 6. Forms and input fields */
 form {
     display: flex;
     flex-direction: column;
@@ -199,27 +255,43 @@ form {
 
 label {
     margin-top: 8px;
+    color: var(--text);
     font-weight: 600;
 }
 
-input:not([type="checkbox"]),
-select {
+input:not([type="checkbox"]):not([type="radio"]),
+select,
+textarea {
     width: 100%;
+    max-width: 100%;
     min-height: 44px;
     padding: 10px 12px;
+    color: var(--text);
+    background: white;
     border: 1px solid #cbd5e1;
     border-radius: 8px;
-    background: white;
-    color: var(--text);
 }
 
-input[type="checkbox"] {
+textarea {
+    min-height: 110px;
+    resize: vertical;
+}
+
+input::placeholder,
+textarea::placeholder {
+    color: #64748b;
+}
+
+input[type="checkbox"],
+input[type="radio"] {
     width: 20px;
     height: 20px;
     accent-color: var(--primary);
 }
 
-input[aria-invalid="true"] {
+input[aria-invalid="true"],
+select[aria-invalid="true"],
+textarea[aria-invalid="true"] {
     border-color: var(--danger);
 }
 
@@ -241,7 +313,49 @@ input[aria-invalid="true"] {
     margin-top: 10px;
 }
 
-/* ===== Spending cap ===== */
+/* 7. Buttons */
+button {
+    min-height: 42px;
+    padding: 10px 16px;
+    color: white;
+    background: var(--primary);
+    border: 1px solid transparent;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+button:hover {
+    background: var(--primary-dark);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+button:disabled {
+    cursor: not-allowed;
+    opacity: 0.55;
+}
+
+button.delete-transaction {
+    background: var(--danger);
+}
+
+button.delete-transaction:hover {
+    background: #7f1d1d;
+}
+
+button.edit-transaction {
+    background: #174482;
+}
+
+button.edit-transaction:hover {
+    background: #0f3263;
+}
+
+/* 8. Spending cap and status messages */
 #cap-form {
     margin-top: 12px;
 }
@@ -250,8 +364,9 @@ input[aria-invalid="true"] {
 #data-status,
 #search-status {
     padding: 12px;
-    border-radius: 8px;
+    color: var(--text);
     background: #f1f5f9;
+    border-radius: 8px;
     overflow-wrap: anywhere;
 }
 
@@ -259,21 +374,31 @@ input[aria-invalid="true"] {
     margin-top: 12px;
 }
 
-/* ===== Weekly trend chart ===== */
+[role="alert"] {
+    color: var(--danger);
+}
+
+[aria-live] {
+    overflow-wrap: anywhere;
+}
+
+/* 9. Weekly spending chart */
+#weekly-trend,
 .weekly-trend {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 8px;
-    align-items: end;
-    min-height: 200px;
-    padding: 15px 5px;
+    display: flex;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    overflow-x: auto;
+    padding: 12px;
+    background: var(--surface-muted);
     border: 1px solid var(--border);
     border-radius: 10px;
-    background: #fafafa;
 }
 
 .trend-day {
     display: flex;
+    flex: 1 0 54px;
     flex-direction: column;
     align-items: center;
     justify-content: flex-end;
@@ -283,7 +408,8 @@ input[aria-invalid="true"] {
 }
 
 .trend-amount {
-    font-size: 0.68rem;
+    color: var(--muted);
+    font-size: 0.75rem;
     text-align: center;
     overflow-wrap: anywhere;
 }
@@ -295,26 +421,26 @@ input[aria-invalid="true"] {
     max-width: 36px;
     height: 100px;
     overflow: hidden;
+    background: #e2e8f0;
     border-radius: 5px 5px 0 0;
-    background: #e5e7eb;
 }
 
 .trend-bar {
     width: 100%;
-    border-radius: 5px 5px 0 0;
     background: var(--primary);
-    transition: height 0.3s ease;
+    border-radius: 5px 5px 0 0;
 }
 
 .trend-label {
+    color: var(--text);
     font-size: 0.8rem;
     font-weight: 700;
 }
 
-/* ===== Transaction cards ===== */
+/* 10. Transaction cards */
 #transaction-list {
     display: grid;
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     gap: 16px;
     margin-top: 20px;
 }
@@ -322,9 +448,17 @@ input[aria-invalid="true"] {
 .transaction-card {
     min-width: 0;
     padding: 20px;
+    color: var(--text);
+    background: white;
     border: 1px solid var(--border);
     border-radius: 12px;
-    background: white;
+    overflow-wrap: anywhere;
+    transition: border-color 0.2s, transform 0.2s;
+}
+
+.transaction-card:hover {
+    border-color: var(--primary);
+    transform: translateY(-2px);
 }
 
 .transaction-card h3 {
@@ -342,15 +476,7 @@ input[aria-invalid="true"] {
     margin-top: 16px;
 }
 
-.transaction-actions .delete-transaction {
-    background: var(--danger);
-}
-
-.transaction-actions .delete-transaction:hover {
-    background: #7f1d1d;
-}
-
-/* ===== Search and filters ===== */
+/* 11. Search, filters and highlighted matches */
 .history-controls {
     display: flex;
     flex-direction: column;
@@ -367,7 +493,38 @@ input[aria-invalid="true"] {
     margin: 4px 0 12px;
 }
 
-/* ===== Settings and About ===== */
+mark {
+    padding: 0 2px;
+    color: #172033;
+    background: #fde68a;
+    border-radius: 3px;
+}
+
+/* 12. Tables */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th,
+td {
+    padding: 12px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    overflow-wrap: anywhere;
+}
+
+th {
+    color: white;
+    background: var(--navy);
+}
+
+td {
+    color: var(--text);
+}
+
+/* 13. Settings and About */
 #settings-heading,
 #about-heading {
     scroll-margin-top: 20px;
@@ -382,113 +539,20 @@ input[aria-invalid="true"] {
     line-height: 1.8;
 }
 
-/* ===== Footer ===== */
+/* 14. Footer */
 body > footer {
     padding: 24px 16px;
-    background: #111827;
     color: #e5e7eb;
+    background: #111827;
     text-align: center;
 }
 
 body > footer p {
     margin: 0;
+    color: #e5e7eb;
 }
 
-/* ===== Tablet: 768px and above ===== */
-@media (min-width: 768px) {
-    body > header {
-        padding: 36px 28px;
-    }
-
-    .summary-cards {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    #transaction-list {
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    #cap-form {
-        display: grid;
-        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-        align-items: end;
-    }
-
-    #cap-form button {
-        grid-column: 1 / -1;
-    }
-
-    .weekly-trend {
-        gap: 16px;
-        padding: 20px;
-    }
-
-    .trend-amount {
-        font-size: 0.85rem;
-    }
-}
-
-/* ===== Desktop: 1024px and above ===== */
-@media (min-width: 1024px) {
-    main {
-        margin-top: 40px;
-        margin-bottom: 40px;
-    }
-
-    .summary-cards {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    #transaction-list {
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-}
-
-/* ===== Very small screens ===== */
-@media (max-width: 360px) {
-    main {
-        width: calc(100% - 20px);
-    }
-
-    main > section {
-        padding: 14px;
-    }
-
-    nav a {
-        padding: 8px 10px;
-        font-size: 0.9rem;
-    }
-
-    .weekly-trend {
-        gap: 3px;
-        padding: 10px 2px;
-    }
-
-    .trend-amount {
-        font-size: 0.58rem;
-    }
-
-    .trend-label {
-        font-size: 0.68rem;
-    }
-}
-
-/* Respect users who prefer reduced motion */
-@media (prefers-reduced-motion: reduce) {
-    html {
-        scroll-behavior: auto;
-    }
-
-    *,
-    *::before,
-    *::after {
-        transition-duration: 0.01ms !important;
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-    }
-}
-
-/* ===== Multi-page layout ===== */
+/* 15. Multi-page layouts */
 .page-dashboard main > section:not(:first-child) {
     display: none;
 }
@@ -507,23 +571,120 @@ body > footer p {
     display: none;
 }
 
-/* Keep navigation easy to use */
-header nav {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    margin-top: 20px;
+/* 16. Small phones */
+@media (max-width: 400px) {
+    body {
+        background-attachment: scroll;
+    }
+
+    main {
+        width: calc(100% - 20px);
+        margin: 20px auto;
+    }
+
+    main > section {
+        padding: 14px;
+    }
+
+    header {
+        padding: 22px 18px;
+    }
+
+    header nav {
+        gap: 8px;
+    }
+
+    header nav a {
+        padding: 8px 9px;
+        font-size: 0.82rem;
+    }
+
+    #weekly-trend,
+    .weekly-trend {
+        gap: 6px;
+        padding: 10px 2px;
+    }
+
+    .trend-day {
+        flex-basis: 42px;
+    }
+
+    .trend-amount {
+        font-size: 0.65rem;
+    }
+
+    .trend-label {
+        font-size: 0.68rem;
+    }
 }
 
-header nav a {
-    display: inline-block;
-    padding: 10px 14px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 600;
+/* 17. Tablet */
+@media (min-width: 768px) {
+    body > header {
+        padding: 36px 28px;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #transaction-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #cap-form {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        align-items: end;
+    }
+
+    #cap-form button {
+        grid-column: 1 / -1;
+    }
+
+    #weekly-trend,
+    .weekly-trend {
+        gap: 16px;
+        padding: 20px;
+    }
+
+    .trend-amount {
+        font-size: 0.85rem;
+    }
 }
 
-header nav a:hover,
-header nav a:focus-visible {
-    text-decoration: underline;
+/* 18. Desktop */
+@media (min-width: 1024px) {
+    main {
+        margin-top: 40px;
+        margin-bottom: 40px;
+    }
+
+    main > section {
+        margin-bottom: 30px;
+    }
+
+    .summary-cards {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    #transaction-list {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+/* 19. Reduced-motion preference */
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        scroll-behavior: auto !important;
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+    }
 }
