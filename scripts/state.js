@@ -19,10 +19,8 @@ function createTransaction(data) {
 
 function addTransaction(data) {
     const transaction = createTransaction(data);
-
     transactions.push(transaction);
     saveTransactions(transactions);
-
     return transaction;
 }
 
@@ -35,10 +33,10 @@ function updateTransaction(id, data) {
         return false;
     }
 
-    const existingTransaction = transactions[index];
+    const existing = transactions[index];
 
     transactions[index] = {
-        ...existingTransaction,
+        ...existing,
         description: data.description.trim(),
         amount: Number(data.amount),
         type: data.type,
@@ -48,7 +46,6 @@ function updateTransaction(id, data) {
     };
 
     saveTransactions(transactions);
-
     return true;
 }
 
@@ -63,6 +60,19 @@ function deleteTransaction(id) {
 
     transactions.splice(index, 1);
     saveTransactions(transactions);
+    return true;
+}
+
+function replaceTransactions(newTransactions) {
+    const previousTransactions = transactions;
+    transactions = newTransactions.map((transaction) => ({
+        ...transaction
+    }));
+
+    if (!saveTransactions(transactions)) {
+        transactions = previousTransactions;
+        return false;
+    }
 
     return true;
 }
@@ -75,5 +85,6 @@ export {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    replaceTransactions,
     getTransactions
 };
