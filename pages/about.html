@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="A finance tracker for students to manage their money.">
+    <title>Student Finance Tracker</title>
+    <link rel="stylesheet" href="../styles/style.css">
+</head>
+<body class="page-about">
+    <a class="skip-link" href="#main-content">Skip to main content</a>
+
+    <header>
+        <h1>Student Finance Tracker</h1>
+        <p>How to be the sole owner of your pocket.</p>
+
+        <nav aria-label="Main navigation">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="transactions.html#transaction-heading">Add Transaction</a>
+            <a href="transactions.html#history-heading">Transaction History</a>
+            <a href="settings.html">Settings</a>
+            <a href="about.html">About</a>
+        </nav>
+    </header>
+
+    <main id="main-content">
+        <section aria-labelledby="summary-heading">
+            <h2 id="summary-heading">Your Entire Pocket</h2>
+
+            <div class="summary-cards">
+                <article>
+                    <h3>Total Balance</h3>
+                    <p id="balance">RWF 0.00</p>
+                </article>
+                <article>
+                    <h3>Total Income</h3>
+                    <p id="income">RWF 0.00</p>
+                </article>
+                <article>
+                    <h3>Total Expenses</h3>
+                    <p id="expenses">RWF 0.00</p>
+                </article>
+                <article>
+                    <h3>Total Transactions</h3>
+                    <p id="total-transactions">0</p>
+                </article>
+                <article>
+                    <h3>Top Spending Category</h3>
+                    <p id="top-category">None yet</p>
+                </article>
+            </div>
+
+            <section aria-labelledby="trend-heading">
+                <h3 id="trend-heading">Last 7 Days</h3>
+                <p>Daily expenses over the last seven days.</p>
+                <div id="weekly-trend" class="weekly-trend"
+                     role="img"
+                     aria-label="Daily expense trend for the last seven days">
+                    <p>No expense data yet.</p>
+                </div>
+            </section>
+
+            <section aria-labelledby="cap-heading">
+                <h3 id="cap-heading">Spending Cap</h3>
+                <p>Set a limit for your expenses to help manage your money.</p>
+
+                <form id="cap-form">
+                    <label for="spending-cap">Expense cap (RWF)</label>
+                    <input type="number" id="spending-cap" name="spending-cap"
+                           min="0" step="0.01" placeholder="e.g. 50000" required>
+                    <button type="submit">Save Spending Cap</button>
+                </form>
+
+                <p id="cap-status" role="status" aria-live="polite"
+                   aria-atomic="true">Set a spending cap to get started.</p>
+            </section>
+        </section>
+
+        <section aria-labelledby="transaction-heading">
+            <h2 id="transaction-heading">Let's Talk Money</h2>
+
+            <form id="transaction-form" novalidate>
+                <label for="description">Description</label>
+                <input type="text" id="description" name="description"
+                       placeholder="e.g. Lunch" required
+                       aria-describedby="description-error">
+                <p id="description-error" class="error-message"
+                   role="status" aria-live="polite"></p>
+
+                <label for="amount">Amount (RWF)</label>
+                <input type="number" id="amount" name="amount"
+                       min="0" step="0.01" required
+                       aria-describedby="amount-error">
+                <p id="amount-error" class="error-message"
+                   role="status" aria-live="polite"></p>
+
+                <label for="type">Transaction Type</label>
+                <select id="type" name="type" required>
+                    <option value="income">Income</option>
+                    <option value="expense">Expense</option>
+                </select>
+
+                <label for="category">Category</label>
+                <select id="category" name="category" required
+                        aria-describedby="category-error">
+                    <option value="Food">Food</option>
+                    <option value="Transport">Transport</option>
+                    <option value="Books">Books</option>
+                    <option value="Entertainment">Entertainment</option>
+                    <option value="Fees">Fees</option>
+                    <option value="Other">Other</option>
+                </select>
+                <p id="category-error" class="error-message"
+                   role="status" aria-live="polite"></p>
+
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required
+                       aria-describedby="date-error">
+                <p id="date-error" class="error-message"
+                   role="status" aria-live="polite"></p>
+
+                <button type="submit">Add Transaction</button>
+                <button type="button" id="cancel-edit" hidden>
+                    Cancel Editing
+                </button>
+            </form>
+        </section>
+
+        <section aria-labelledby="history-heading">
+            <h2 id="history-heading">Transaction History</h2>
+
+            <div class="history-controls">
+                <label for="search-input">Search transactions</label>
+                <input type="search" id="search-input"
+                       placeholder="Enter a word or regex pattern"
+                       aria-describedby="search-help">
+                <p id="search-help">
+                    Search using regular expressions, such as
+                    <code>coffee|tea</code>.
+                </p>
+
+                <label for="case-sensitive">Case-sensitive search</label>
+                <input type="checkbox" id="case-sensitive">
+
+                <label for="sort-by">Sort transactions by</label>
+                <select id="sort-by">
+                    <option value="date-desc">Date: newest first</option>
+                    <option value="date-asc">Date: oldest first</option>
+                    <option value="description-asc">Description: A–Z</option>
+                    <option value="description-desc">Description: Z–A</option>
+                    <option value="amount-asc">Amount: lowest first</option>
+                    <option value="amount-desc">Amount: highest first</option>
+                </select>
+
+                <p id="search-status" role="status" aria-live="polite"></p>
+            </div>
+
+            <div id="transaction-list" aria-live="polite">
+                <p>No transactions yet? What are you waiting for?</p>
+            </div>
+        </section>
+
+        <section aria-labelledby="settings-heading">
+            <h2 id="settings-heading">Settings and Data</h2>
+
+            <h3>Currency Settings</h3>
+            <p>
+                Choose your display currency and enter manual exchange rates.
+                Rates are relative to RWF: enter how many units of the chosen
+                currency equal 1 RWF.
+            </p>
+
+            <form id="currency-form">
+                <label for="base-currency">Display currency</label>
+                <select id="base-currency" name="base-currency">
+                    <option value="RWF">Rwandan Franc (RWF)</option>
+                    <option value="USD">US Dollar (USD)</option>
+                    <option value="EUR">Euro (EUR)</option>
+                </select>
+
+                <label for="usd-rate">USD rate per 1 RWF</label>
+                <input type="number" id="usd-rate" name="usd-rate"
+                       min="0.000001" step="any" required>
+
+                <label for="eur-rate">EUR rate per 1 RWF</label>
+                <input type="number" id="eur-rate" name="eur-rate"
+                       min="0.000001" step="any" required>
+
+                <button type="submit">Save Currency Settings</button>
+            </form>
+
+            <h3>Import and Export</h3>
+            <p>Download a JSON backup or import a previously saved backup.</p>
+
+            <button type="button" id="export-json">Export Transactions</button>
+
+            <label for="import-json">Choose a JSON backup file</label>
+            <input type="file" id="import-json" accept=".json,application/json">
+
+            <button type="button" id="import-json-button">
+                Import Transactions
+            </button>
+
+            <p id="data-status" role="status" aria-live="polite"></p>
+        </section>
+
+        <section aria-labelledby="about-heading">
+            <h2 id="about-heading">About This Tracker</h2>
+            <p>
+                Student Finance Tracker helps students record income and
+                expenses, understand spending habits, set limits, and keep
+                their financial records organised.
+            </p>
+            <p>
+                Built as a front-end development project using HTML, CSS,
+                and JavaScript.
+            </p>
+            <p>
+                Developer: Abigail Cobbina
+            </p>
+            <p>
+                GitHub:
+                <a href="https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina">
+                    View the project repository
+                </a>
+            </p>
+            <p>
+                Contact:
+                <a href="mailto:YOUR_EMAIL@example.com">Email the developer</a>
+            </p>
+            <p>Note: Replace the example email address with your actual contact email before submission.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>Student Finance Tracker &copy; 2026</p>
+    </footer>
+
+    <script type="module" src="../scripts/main.js"></script>
+</body>
+</html>

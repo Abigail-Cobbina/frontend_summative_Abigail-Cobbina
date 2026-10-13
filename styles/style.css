@@ -487,3 +487,43 @@ body > footer p {
         animation-iteration-count: 1 !important;
     }
 }
+
+/* ===== Multi-page layout ===== */
+.page-dashboard main > section:not(:first-child) {
+    display: none;
+}
+
+.page-transactions main > section:first-child,
+.page-transactions main > section[aria-labelledby="settings-heading"],
+.page-transactions main > section[aria-labelledby="about-heading"] {
+    display: none;
+}
+
+.page-settings main > section:not([aria-labelledby="settings-heading"]) {
+    display: none;
+}
+
+.page-about main > section:not([aria-labelledby="about-heading"]) {
+    display: none;
+}
+
+/* Keep navigation easy to use */
+header nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+header nav a {
+    display: inline-block;
+    padding: 10px 14px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+header nav a:hover,
+header nav a:focus-visible {
+    text-decoration: underline;
+}
