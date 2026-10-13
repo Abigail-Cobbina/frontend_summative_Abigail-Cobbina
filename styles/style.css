@@ -688,3 +688,71 @@ body > footer p {
         animation-iteration-count: 1 !important;
     }
 }
+
+/* Test page styling */
+.page-tests {
+    background-color: #071a35;
+    color: #f1f5f9;
+}
+
+.page-tests main {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 1.5rem;
+    background: #0f2747;
+    border: 1px solid #294563;
+    border-radius: 14px;
+    box-shadow: 0 8px 24px rgb(0 0 0 / 20%);
+}
+
+.page-tests h1,
+.page-tests h2,
+.page-tests h3 {
+    color: #ffffff;
+}
+
+.page-tests p,
+.page-tests li,
+.page-tests label {
+    color: #dbeafe;
+}
+
+.page-tests section,
+.page-tests .test-result {
+    padding: 1rem;
+    margin-bottom: 1rem;
+    background: #173454;
+    border: 1px solid #365675;
+    border-radius: 10px;
+}
+
+.page-tests button {
+    background: #1c6cff;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1rem;
+}
+
+.page-tests pre,
+.page-tests code {
+    color: #dbeafe;
+    background: #071a35;
+}
+
+/* Make the test summary readable on dark backgrounds */
+.page-tests main p,
+.page-tests main div,
+.page-tests main span {
+    color: #f1f5f9;
+}
+
+.page-tests main .summary,
+.page-tests main .test-summary,
+.page-tests main #test-summary,
+.page-tests main #results {
+    background-color: #173454;
+    color: #ffffff;
+    padding: 1rem;
+    border-radius: 10px;
+}

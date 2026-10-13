@@ -29,7 +29,7 @@ The Student Finance Tracker is a responsive web application for recording and ma
 
 ## Data Model
 
-Each transaction contains:
+Every Transaction contains:
 
 | Field | Description |
 |---|---|
