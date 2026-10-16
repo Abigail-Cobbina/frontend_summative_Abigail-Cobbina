@@ -9,7 +9,7 @@ The Student Finance Tracker is a responsive web application for recording and ma
 
 **Repository:** https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina
 
-**Live Demo:** Add the GitHub Pages URL here after deployment is complete.
+**Live Demo:** https://abigail-cobbina.github.io/frontend_summative_Abigail-Cobbina/
 
 ## Features
 

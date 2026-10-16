@@ -121,6 +121,47 @@
       "date": "2026-10-12",
       "createdAt": "2026-10-12T17:00:00.000Z",
       "updatedAt": "2026-10-12T17:00:00.000Z"
+    },
+    {
+      "id": "seed013",
+      "description": "Coffee + snacks",
+      "amount": 0.01,
+      "type": "expense",
+      "category": "Food",
+      "date": "2024-02-29",
+      "createdAt": "2024-02-29T10:00:00.000Z",
+      "updatedAt": "2024-02-29T10:00:00.000Z"
+    },
+    {
+      "id": "seed014",
+      "description": "Rent (shared)",
+      "amount": 999999999,
+      "type": "expense",
+      "category": "Housing",
+      "date": "2026-12-31",
+      "createdAt": "2026-12-31T12:00:00.000Z",
+      "updatedAt": "2026-12-31T12:00:00.000Z"
+    },
+    {
+      "id": "seed015",
+      "description": "Food food",
+      "amount": 1500.75,
+      "type": "expense",
+      "category": "Food",
+      "date": "2026-01-01",
+      "createdAt": "2026-01-01T08:00:00.000Z",
+      "updatedAt": "2026-01-01T08:00:00.000Z"
+    },
+    {
+      "id": "seed016",
+      "description": "  Emergency fund  ",
+      "amount": 250,
+      "type": "income",
+      "category": "Savings",
+      "date": "2026-06-30",
+      "createdAt": "2026-06-30T15:00:00.000Z",
+      "updatedAt": "2026-06-30T15:00:00.000Z"
     }
   ]
 }
+
