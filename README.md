@@ -198,16 +198,23 @@ Open the test page in a browser and check that all tests pass.
 
 ## Deployment
 
-The project is intended to be published using GitHub Pages.
+The Student Finance Tracker is deployed using GitHub Pages.
 
-After deployment, add the verified GitHub Pages URL to the Live Demo field near the top of this README.
+**Live Demo:** https://abigail-cobbina.github.io/frontend_summative_Abigail-Cobbina/
+
+**Repository:** https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina
 
 ## Demo Video
 
-Record an unlisted video of approximately 2–3 minutes demonstrating:
-1. Keyboard navigation.
+**Status:** To be added after recording.
+
+The unlisted 2–3 minute demo video will demonstrate:
+
+1. Keyboard navigation through the application.
 2. Form validation and regular expression edge cases.
 3. Adding, editing, and deleting transactions.
-4. Search, sorting, and dashboard statistics.
-5. JSON import and export.
-6. Currency settings and persistence.
+4. Regex search, sorting, and dashboard statistics.
+5. JSON data import and export.
+6. Currency settings and data persistence.
+
+The video link will be added here after the recording is uploaded.
