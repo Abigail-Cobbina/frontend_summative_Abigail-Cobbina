@@ -3,193 +3,253 @@
 
 ## Project Overview
 
-The Student Finance Tracker is a responsive web application for recording and managing personal income and expenses. It helps students monitor their spending, understand their financial habits, and manage a spending target.
+The Student Finance Tracker is a responsive web application that helps students manage their income and expenses. Users can record transactions, organize them by category, search and sort records, and monitor their financial activity through a dashboard.
 
-**Technologies:** HTML5, CSS3, and vanilla JavaScript.
+## Theme
 
-**Repository:** https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina
+**Student Finance Tracker**
 
-**Live Demo:** https://abigail-cobbina.github.io/frontend_summative_Abigail-Cobbina/
+## Technologies Used
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+- Regular Expressions (Regex)
+- JSON for data import and export
+- Local Storage for data persistence
+
+## Links
+
+- **GitHub Repository:** https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina
+- **Live Website:** https://abigail-cobbina.github.io/frontend_summative_Abigail-Cobbina/
+- **Demo Video:** https://youtu.be/jBXJ5kamu4U
 
 ## Features
 
-- Add, edit, and delete income and expense records.
+- Add income and expense transactions.
+- Edit and delete transactions.
 - Validate transaction descriptions, amounts, dates, and categories.
 - Search transactions using regular expressions.
-- Toggle case-sensitive search and highlight matching text.
-- Sort transactions by date, description, and amount.
-- View total income, total expenses, balance, transaction count, and top expense category.
-- View an expense trend for the last seven days.
-- Set a spending cap and view remaining funds or overspending.
-- Save and restore transactions using browser localStorage.
-- Import and export transaction data as JSON.
-- Configure the display currency and manual exchange rates.
-- Use separate Dashboard, Transactions, Settings, and About pages.
-- View transaction records in a responsive layout.
+- Highlight matching search results.
+- Sort transactions.
+- View dashboard statistics for income and expenses.
+- Import and export transaction data using JSON files.
+- Save transaction data using Local Storage.
+- Navigate the application using the keyboard.
+- Use a responsive layout across different screen sizes.
+- Display validation feedback when entered information is invalid.
 
 ## Data Model
 
-Every Transaction contains:
+Each transaction contains the following information:
 
 | Field | Description |
 |---|---|
 | `id` | Unique transaction identifier |
-| `description` | Transaction description |
-| `amount` | Numeric transaction amount |
-| `type` | `income` or `expense` |
-| `category` | Transaction category |
-| `date` | Transaction date in `YYYY-MM-DD` format |
-| `createdAt` | Creation timestamp |
-| `updatedAt` | Most recent update timestamp |
+| `type` | Transaction type: income or expense |
+| `description` | Description of the transaction |
+| `amount` | Transaction amount |
+| `category` | Category assigned to the transaction |
+| `date` | Date of the transaction |
 
-Transaction amounts are stored as numeric values. Currency display settings affect presentation and do not change the stored transaction amounts.
+## Regex Validation Catalog
 
-## Regular Expression Catalog
+Regular expressions are used to validate user input and identify patterns.
 
-### 1. Description spacing
+### 1. Description Validation
 
-Pattern: `/^\S(?:.*\S)?$/`
+**Pattern:**
 
-Checks that a description does not begin or end with whitespace. A separate check, `/\s{2,}/`, rejects repeated whitespace.
+```regex
+^\S(?:.*\S)?$
+```
 
-Examples:
-- `Weekly groceries` — accepted.
-- ` Weekly groceries` — rejected.
-- `Weekly  groceries` — rejected.
+**Purpose:** Checks that a description does not begin or end with whitespace.
 
-### 2. Amount format
+**Examples:**
+- `Lunch` — valid
+- `Bus fare` — valid
+- ` Lunch` — invalid
+- `Lunch ` — invalid
 
-Pattern: `/^(0|[1-9]\d*)(\.\d{1,2})?$/`
+The application also checks for repeated consecutive whitespace:
 
-Accepts non-negative whole numbers or numbers with one or two decimal places.
+```regex
+\s{2,}
+```
 
-Examples:
-- `2500` — accepted.
-- `2500.75` — accepted.
-- `2500.755` — rejected.
-- `-25` — rejected.
+This prevents descriptions containing two or more consecutive whitespace characters.
 
-### 3. Date format
+### 2. Amount Validation
 
-Pattern: `/^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/`
+**Pattern:**
 
-Checks the `YYYY-MM-DD` format and valid month/day ranges. Additional JavaScript date checks reject impossible calendar dates.
+```regex
+^(0|[1-9]\d*)(\.\d{1,2})?$
+```
 
-Examples:
-- `2026-10-12` — accepted.
-- `2026-13-12` — rejected.
-- `2026-02-30` — rejected.
+**Purpose:** Accepts non-negative whole numbers or decimal amounts with up to two decimal places.
 
-### 4. Category format
+**Examples:**
+- `100` — valid
+- `25.50` — valid
+- `0.99` — valid
+- `-20` — invalid
+- `12.345` — invalid
+- `abc` — invalid
 
-Pattern: `/^[A-Za-z]+(?:[ -][A-Za-z]+)*$/`
+### 3. Date Validation
 
-Allows alphabetic words separated by a single space or hyphen.
+**Pattern:**
 
-Examples:
-- `Transport` — accepted.
-- `Personal Care` — accepted.
-- `Food2` — rejected.
+```regex
+^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$
+```
 
-### 5. Duplicate-word detection
+**Purpose:** Checks that a date follows the `YYYY-MM-DD` format and that its month and day fall within the pattern's permitted ranges.
 
-Pattern: `/\b(\w+)\s+\1\b/i`
+The application also checks the actual calendar date using JavaScript, which rejects impossible dates.
 
-Uses a capturing group and back-reference to detect a repeated word. The `i` flag makes matching case-insensitive.
+**Examples:**
+- `2026-10-17` — valid
+- `2024-02-29` — valid
+- `2026-13-01` — invalid
+- `2026-02-30` — invalid
 
-Examples:
-- `food food` — detected.
-- `Food food` — detected.
-- `food transport` — no duplicate detected.
+### 4. Category Validation
+
+**Pattern:**
+
+```regex
+^[A-Za-z]+(?:[ -][A-Za-z]+)*$
+```
+
+**Purpose:** Accepts category names containing letters, with optional single spaces or hyphens between words.
+
+**Examples:**
+- `Food` — valid
+- `Transport` — valid
+- `School Supplies` — valid
+- `Home-Care` — valid
+- `Food123` — invalid
+- `Food@Home` — invalid
+
+### 5. Duplicate Word Detection
+
+**Pattern:**
+
+```regex
+\b(\w+)\s+\1\b
+```
+
+**Purpose:** Detects a repeated word appearing consecutively. The application uses the case-insensitive flag (`i`).
+
+**Examples:**
+- `food food` — duplicate detected
+- `Lunch lunch` — duplicate detected
+- `food transport` — no duplicate detected
+
+The capturing group `(\w+)` matches a word, and the back-reference `\1` checks whether the same word appears again.
 
 ## Search and Sorting
 
-The search field accepts regular expressions. Invalid expressions are caught and reported rather than crashing the application. Search can be case-sensitive or case-insensitive, and matches are highlighted.
+The application supports regex-based transaction searches. Matching results are highlighted to help users identify relevant transactions.
 
-Available sorting options include:
-- Date ascending and descending.
-- Description ascending and descending.
-- Amount ascending and descending.
+Invalid regular-expression syntax is handled by displaying an error message instead of allowing the search to fail silently.
+
+Users can also sort transaction records to make financial information easier to review.
 
 ## Keyboard Navigation
 
-- `Tab` — move to the next interactive element.
-- `Shift + Tab` — move to the previous interactive element.
-- `Enter` — activate a focused link or button.
-- `Space` — activate a focused button or checkbox.
-- `Esc` — dismiss certain browser dialogs or controls when supported.
+The application supports keyboard interaction through the following keys where applicable:
 
-A skip link is provided to help keyboard users reach the main content.
+| Key | Function |
+|---|---|
+| `Tab` | Move to the next focusable element |
+| `Shift + Tab` | Move to the previous focusable element |
+| `Enter` | Activate a focused link or button |
+| `Space` | Activate supported buttons or controls |
+| `Esc` | Dismiss supported interfaces or cancel an active interaction where implemented |
 
-## Accessibility
+Visible focus indicators help users identify the currently focused element.
 
-The application aims to support accessible use through:
-- Semantic HTML landmarks and headings.
+## Accessibility Notes
+
+Accessibility considerations include:
+
+- Semantic HTML elements to provide meaningful page structure.
 - Labels for form controls.
-- Accessible names for transaction action buttons.
-- Visible keyboard focus styles.
-- A skip link to main content.
-- Live regions for important status messages.
-- Responsive layouts for mobile, tablet, and desktop screens.
+- Accessible names for interactive buttons.
+- Keyboard navigation and visible focus indicators.
+- Inline validation feedback to help users correct input.
+- Appropriate ARIA attributes for invalid fields and dynamic status messages.
+- Text-based search highlighting using `<mark>` elements.
+- Responsive layouts that support different screen sizes.
 
-## Persistence and JSON
+## Data Persistence and JSON
 
-Transactions are stored in browser localStorage so they remain available after refreshing the page in the same browser.
+The application uses Local Storage to preserve transaction data between page visits.
 
-Use the application's export feature to download transaction data as JSON. Use the import feature to select a JSON file; imported data is validated before it replaces the current records.
+Users can export transaction data as JSON and import JSON data into the application.
 
-The `seed.json` file contains sample transaction records for testing and demonstration.
+The project includes a `seed.json` file containing sample transaction records for testing and demonstration.
 
 ## Running the Project Locally
 
-1. Clone or download this repository.
-2. Open a terminal in the project directory.
-3. Start a local web server:
+1. Clone the repository:
 
    ```bash
-   python3 -m http.server 8000
+   git clone https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina.git
    ```
 
-4. Open `http://localhost:8000/` in your browser.
-5. Open `http://localhost:8000/tests.html` to run the validation tests.
-6. Stop the server with `Ctrl + C` when finished.
+2. Navigate into the project directory:
 
-Run the project through a local web server because the JavaScript modules use browser module imports.
+   ```bash
+   cd frontend_summative_Abigail-Cobbina
+   ```
+
+3. Start a local HTTP server. If Python is installed, run:
+
+   ```bash
+   python -m http.server 8000
+   ```
+
+4. Open the application in your browser:
+
+   ```text
+   http://localhost:8000/
+   ```
+
+5. To run the validation tests, open:
+
+   ```text
+   http://localhost:8000/tests.html
+   ```
 
 ## Validation Tests
 
-The `tests.html` page runs automated checks against the validation functions in `scripts/validators.js`.
+The project includes a test page for checking input validation and related functionality.
 
-The tests cover:
-- Description spacing.
-- Amount format and decimal precision.
-- Date format and calendar validity.
-- Category format.
-- Duplicate-word detection.
+The tests cover examples such as:
 
-Open the test page in a browser and check that all tests pass.
+- Valid and invalid descriptions.
+- Valid and invalid amounts.
+- Valid and invalid dates.
+- Valid and invalid categories.
+- Duplicate word detection.
+- Other implemented validation cases.
+
+Open `tests.html` through the local HTTP server to run the tests.
 
 ## Project Structure
 
 ```text
-.
+frontend_summative_Abigail-Cobbina/
 ├── index.html
 ├── pages/
-│   ├── dashboard.html
-│   ├── transactions.html
-│   ├── settings.html
-│   └── about.html
-├── styles/
-│   └── style.css
 ├── scripts/
-│   ├── main.js
-│   ├── search.js
-│   ├── state.js
-│   ├── storage.js
-│   ├── ui.js
-│   └── validators.js
+├── styles/
 ├── assets/
-│   └── wireframe.txt
 ├── seed.json
 ├── tests.html
 ├── PROJECT_SPEC.md
@@ -198,23 +258,25 @@ Open the test page in a browser and check that all tests pass.
 
 ## Deployment
 
-The Student Finance Tracker is deployed using GitHub Pages.
+The application is deployed using GitHub Pages.
 
-**Live Demo:** https://abigail-cobbina.github.io/frontend_summative_Abigail-Cobbina/
+**Live Website:**  
+https://abigail-cobbina.github.io/frontend_summative_Abigail-Cobbina/
 
-**Repository:** https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina
+**GitHub Repository:**  
+https://github.com/Abigail-Cobbina/frontend_summative_Abigail-Cobbina
 
 ## Demo Video
 
-**Status:** To be added after recording.
-
-The unlisted 2–3 minute demo video will demonstrate:
+The demo video presents the Student Finance Tracker's main features, including:
 
 1. Keyboard navigation through the application.
-2. Form validation and regular expression edge cases.
-3. Adding, editing, and deleting transactions.
+2. Form validation and regular-expression edge cases.
+3. Transaction management.
 4. Regex search, sorting, and dashboard statistics.
 5. JSON data import and export.
-6. Currency settings and data persistence.
+6. Responsive layouts across different screen sizes.
+7. Data persistence.
 
-The video link will be added here after the recording is uploaded.
+[Watch the Student Finance Tracker Demo](https://youtu.be/jBXJ5kamu4U)
+
